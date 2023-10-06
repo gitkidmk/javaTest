@@ -12,6 +12,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.mkkang.javaTest.foreachVsStream.utils.Utils.createChart;
+
 class HumanDTO {
     int id;
     String name;
@@ -37,6 +39,50 @@ public class Main {
     static int end;
     static int space;
 
+    @Test
+    public void test() throws IOException{
+        /**
+        * 주석 조건과 같이 multi thread 테스트의 리스트 길이 변화와 같은 환경에서 테스트하게되면 둘 다 시간은 0 ~ 1ms 소요
+        * 따라서 100,000(십만) 이상의 리스트 길이로 가야 stream이 시간에서 이득을 본다.
+        *
+        *        start = (int)1E4;
+        *        end = (int)1E5;
+        *        space = (int)1E3;
+        */
+
+        start = (int)1E5;
+        end = (int)1E6;
+        space = (int)1E5;
+
+        List<Integer> nList = new ArrayList<>();
+        for(int i=start; i<=end; i=i+space) {
+            nList.add(i);
+        }
+
+        int[] nArr = nList.stream().mapToInt(Integer::intValue).toArray();
+        double[] forEachTimeArr = new double[nArr.length];
+        double[] streamTimeArr = new double[nArr.length];
+        int[] forEachMemArr = new int[nArr.length];
+        int[] streamMemArr = new int[nArr.length];
+
+        for(int i=0; i<nArr.length; i++) {
+            init(nArr[i]);
+
+            Runtime.getRuntime().gc();
+            forEachTimeArr[i] = forEachTest();
+            forEachMemArr[i] = (int)(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
+
+            Runtime.getRuntime().gc();
+            streamTimeArr[i] = streamTest();
+            streamMemArr[i] = (int)(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
+
+        }
+
+        createChart(nArr, forEachTimeArr, streamTimeArr, "single-thread-리스트 길이", "time");
+        createChart(nArr, forEachMemArr, streamMemArr, "single-thread-리스트 길이", "memory");
+
+    }
+
 
     static void init(int N) {
         humanList = new ArrayList<>();
@@ -45,7 +91,7 @@ public class Main {
         }
     }
 
-    static int forEachTest() {
+    static double forEachTest() {
         beforeTime = System.currentTimeMillis();
 
         List<String> nameList = new ArrayList<>();
@@ -54,72 +100,19 @@ public class Main {
         }
 
         afterTime = System.currentTimeMillis();
-        return (int)(afterTime - beforeTime);
+        System.out.println("afterTime = " + afterTime);
+        System.out.println("beforeTime = " + beforeTime);
+        return afterTime - beforeTime;
 
     }
 
-    static int streamTest() {
+    static double streamTest() {
         beforeTime = System.currentTimeMillis();
 
         humanList.stream().map(h -> h.getName()).collect(Collectors.toList());
 
         afterTime = System.currentTimeMillis();
-        return (int)(afterTime - beforeTime);
+        return afterTime - beforeTime;
     }
 
-    static void createTimeChart(int[] xData, int[] foreachData, int[] streamData) throws IOException {
-//        // Create Chart
-        XYChart chart = new XYChartBuilder().width(800).height(600).title("foreach vs stream").xAxisTitle("N").yAxisTitle("time").build();
-        chart.addSeries("foreach", xData, foreachData);
-        chart.addSeries("stream", xData, streamData);
-//        // Show it
-        BitmapEncoder.saveBitmap(chart, "./chart-"+start+"-to-"+end+"-with-"+space, BitmapEncoder.BitmapFormat.PNG);
-    }
-    static void createMemChart(int[] xData, long[] foreachData, long[] streamData) throws IOException {
-//        // Create Chart
-        XYChart chart = new XYChartBuilder().width(800).height(600).title("foreach vs stream").xAxisTitle("N").yAxisTitle("time").build();
-        chart.addSeries("foreach", xData, Arrays.stream(foreachData).mapToInt(i -> (int)i).toArray());
-        chart.addSeries("stream", xData, Arrays.stream(streamData).mapToInt(i -> (int)i).toArray());
-//        // Show it
-        BitmapEncoder.saveBitmap(chart, "./chart-mem-"+start+"-to-"+end+"-with-"+space, BitmapEncoder.BitmapFormat.PNG);
-    }
-
-    @Test
-    public void test() throws IOException{
-        start = (int)10E3;
-        end = (int)10E4;
-        space = (int)10E2;
-
-        System.out.println("start = " + start);
-        System.out.println("end = " + end);
-        System.out.println("space = " + space);
-
-        List<Integer> nList = new ArrayList<>();
-        for(int i=start; i<=end; i=i+space) {
-            nList.add(i);
-        }
-
-        int[] nArr = nList.stream().mapToInt(Integer::intValue).toArray();
-        int[] forEachTimeArr = new int[nArr.length];
-        int[] streamTimeArr = new int[nArr.length];
-        long[] forEachMemArr = new long[nArr.length];
-        long[] streamMemArr = new long[nArr.length];
-
-        for(int i=0; i<nArr.length; i++) {
-            init(nArr[i]);
-
-            Runtime.getRuntime().gc();
-            forEachTimeArr[i] = forEachTest();
-            forEachMemArr[i] = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-
-            Runtime.getRuntime().gc();
-            streamTimeArr[i] = streamTest();
-            streamMemArr[i] = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-
-        }
-
-        createTimeChart(nArr, forEachTimeArr, streamTimeArr);
-        createMemChart(nArr, forEachMemArr, streamMemArr);
-
-    }
 }

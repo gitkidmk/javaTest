@@ -14,6 +14,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
+import static com.mkkang.javaTest.foreachVsStream.utils.Utils.createChart;
+
 class HumanDTO {
     int id;
     String name;
@@ -68,16 +70,16 @@ public class Main {
         }
 
         // chart return
-        createTimeChart(xData, foreachTime, streamTime, "동접자 수");
-        createMemChart(xData, foreachMemory, streamMemory, "동접자 수");
+        createChart(xData, foreachTime, streamTime, "동접자 수", "time");
+        createChart(xData, foreachMemory, streamMemory, "동접자 수", "memory");
     }
 
     @Test
     public void 리스트길이_변화() throws InterruptedException, IOException {
         // 동시 접속자 수(10명)는 고정되어있고, list 길이만 start에서 end로 변화할 때
-        start = (int)1E3;
-        end = (int)1E4;
-        space = 50;
+        start = (int)1E4;
+        end = (int)1E5;
+        space = 1E3;
         int threadNumber = 10;
 
         int length = (int)Math.ceil((end-start)/space);
@@ -105,8 +107,8 @@ public class Main {
         }
 
         // chart return
-        createTimeChart(xData, foreachTime, streamTime, "리스트 길이");
-        createMemChart(xData, foreachMemory, streamMemory, "리스트 길이");
+        createChart(xData, foreachTime, streamTime, "리스트 길이", "time");
+        createChart(xData, foreachMemory, streamMemory, "리스트 길이", "memory");
     }
 
     public int forEachThreadTest(int threadNum, int initNum) throws InterruptedException {

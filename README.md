@@ -10,25 +10,35 @@
 
 <table>
   <tr>
-      <td valign="center">동시접속자 수 변화</td>
+      <td valign="center"></td>
+      <td valign="center">시간 차트</td>
+      <td>메모리 차트</td>
+  </tr>
+  <tr>
+      <td valign="center">싱글 스레드, 리스트 길이 변화</td>
       <td valign="center">
-          <img width="200px" src="./chartImage/리스트 길이chart-time-1000-to-10000-with-50.0.png"/>
-          <p size="1">시간 차트</p>
+          <img width="200px" src="./chartImage/single-thread-리스트 길이-chart-time.png"/>
       </td>
       <td>
-          <img width="200px" src="./chartImage/리스트 길이chart-memory-1000-to-10000-with-50.0.png"/>
-          <p size="1">메모리 차트</p>
+          <img width="200px" src="./chartImage/single-thread-리스트 길이-chart-memory.png"/>
+      </td>
+  </tr>
+  <tr>
+      <td valign="center">동시접속자 수 변화</td>
+      <td valign="center">
+          <img width="200px" src="./chartImage/리스트 길이-chart-time.png"/>
+      </td>
+      <td>
+          <img width="200px" src="./chartImage/리스트 길이-chart-memory.png"/>
       </td>
   </tr>
   <tr>
       <td valign="center">리스트 길이 변화</td>
       <td valign="center">
-          <img width="200px" src="./chartImage/동접자 수chart-time-1-to-100-with-1.0.png"/>
-          <p size="1">시간 차트</p>
+          <img width="200px" src="./chartImage/동접자 수-chart-time.png"/>
       </td>
       <td>
-          <img width="200px" src="./chartImage/동접자 수chart-memory-1-to-100-with-1.0.png"/>
-          <p size="1">메모리 차트</p>
+          <img width="200px" src="./chartImage/동접자 수-chart-memory.png"/>
       </td>
   </tr>
 </table>
