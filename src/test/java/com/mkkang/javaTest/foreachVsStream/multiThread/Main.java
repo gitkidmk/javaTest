@@ -39,9 +39,9 @@ public class Main {
         // list 길이는 고정되어있고 동시 접속자 수가 start에서 end 만큼 증가할 때
         start = 1;
         end = 100;
-        space = 10;
+        space = 1;
 
-        int listLength = (int)10E4;
+        int listLength = (int)1E4; // 10,000 만
 
         int length = (int)Math.ceil((end-start)/space);
 
@@ -55,7 +55,7 @@ public class Main {
 
 
         int count = 0;
-        for(int i=start; i<=end; i+=space) {
+        for(int i=start; i<end; i+=space) {
             xData[count] = i;
             Runtime.getRuntime().gc();
             foreachTime[count] = forEachThreadTest(i, listLength);
@@ -68,16 +68,16 @@ public class Main {
         }
 
         // chart return
-        createTimeChart(xData, foreachTime, streamTime);
-        createMemChart(xData, foreachMemory, streamMemory);
+        createTimeChart(xData, foreachTime, streamTime, "동접자 수");
+        createMemChart(xData, foreachMemory, streamMemory, "동접자 수");
     }
 
     @Test
     public void 리스트길이_변화() throws InterruptedException, IOException {
         // 동시 접속자 수(10명)는 고정되어있고, list 길이만 start에서 end로 변화할 때
-        start = 100;
-        end = (int)10E4;
-        space = 500;
+        start = (int)1E3;
+        end = (int)1E4;
+        space = 50;
         int threadNumber = 10;
 
         int length = (int)Math.ceil((end-start)/space);
@@ -92,7 +92,7 @@ public class Main {
 
 
         int count = 0;
-        for(int i=start; i<=end; i+=space) {
+        for(int i=start; i<end; i+=space) {
             xData[count] = i;
             Runtime.getRuntime().gc();
             foreachTime[count] = forEachThreadTest(threadNumber, i);
@@ -105,8 +105,8 @@ public class Main {
         }
 
         // chart return
-        createTimeChart(xData, foreachTime, streamTime);
-        createMemChart(xData, foreachMemory, streamMemory);
+        createTimeChart(xData, foreachTime, streamTime, "리스트 길이");
+        createMemChart(xData, foreachMemory, streamMemory, "리스트 길이");
     }
 
     public int forEachThreadTest(int threadNum, int initNum) throws InterruptedException {
@@ -208,18 +208,18 @@ public class Main {
         humanList.stream().map(h -> h.getName()).collect(Collectors.toList());
     }
 
-    static void createTimeChart(int[] xData, int[] foreachData, int[] streamData) throws IOException {
-        XYChart chart = new XYChartBuilder().width(800).height(600).title("foreach vs stream").xAxisTitle("N").yAxisTitle("time").build();
+    static void createTimeChart(int[] xData, int[] foreachData, int[] streamData, String title) throws IOException {
+        XYChart chart = new XYChartBuilder().width(800).height(600).title("foreach vs stream").xAxisTitle(title).yAxisTitle("time").build();
         chart.addSeries("foreach", xData, foreachData);
         chart.addSeries("stream", xData, streamData);
 
-        BitmapEncoder.saveBitmap(chart, "./chart-time-"+start+"-to-"+end+"-with-"+space, BitmapEncoder.BitmapFormat.PNG);
+        BitmapEncoder.saveBitmap(chart, "./"+title+"chart-time-"+start+"-to-"+end+"-with-"+space, BitmapEncoder.BitmapFormat.PNG);
     }
-    static void createMemChart(int[] xData, int[] foreachData, int[] streamData) throws IOException {
-        XYChart chart = new XYChartBuilder().width(800).height(600).title("foreach vs stream").xAxisTitle("N").yAxisTitle("time").build();
+    static void createMemChart(int[] xData, int[] foreachData, int[] streamData, String title) throws IOException {
+        XYChart chart = new XYChartBuilder().width(800).height(600).title("foreach vs stream").xAxisTitle(title).yAxisTitle("memory").build();
         chart.addSeries("foreach", xData, foreachData);
         chart.addSeries("stream", xData, streamData);
 
-        BitmapEncoder.saveBitmap(chart, "./chart-memory-"+start+"-to-"+end+"-with-"+space, BitmapEncoder.BitmapFormat.PNG);
+        BitmapEncoder.saveBitmap(chart, "./"+title+"chart-memory-"+start+"-to-"+end+"-with-"+space, BitmapEncoder.BitmapFormat.PNG);
     }
 }
