@@ -24,21 +24,21 @@
       </td>
   </tr>
   <tr>
-      <td valign="center">동시접속자 수 변화</td>
-      <td valign="center">
-          <img width="200px" src="./chartImage/리스트 길이-chart-time.png"/>
-      </td>
-      <td>
-          <img width="200px" src="./chartImage/리스트 길이-chart-memory.png"/>
-      </td>
-  </tr>
-  <tr>
-      <td valign="center">리스트 길이 변화</td>
+      <td valign="center">멀티 스레드, 리스트 길이 변화</td>
       <td valign="center">
           <img width="200px" src="./chartImage/동접자 수-chart-time.png"/>
       </td>
       <td>
           <img width="200px" src="./chartImage/동접자 수-chart-memory.png"/>
+      </td>
+  </tr>
+  <tr>
+      <td valign="center">멀티 스레드, 동시접속자 수 변화</td>
+      <td valign="center">
+          <img width="200px" src="./chartImage/리스트 길이-chart-time.png"/>
+      </td>
+      <td>
+          <img width="200px" src="./chartImage/리스트 길이-chart-memory.png"/>
       </td>
   </tr>
 </table>
