@@ -24,7 +24,7 @@
       </td>
   </tr>
   <tr>
-      <td valign="center">멀티 스레드, 리스트 길이 변화 (동접자 수 10명)</td>
+      <td valign="center">멀티 스레드, 리스트 길이 변화<br/>(동접자 수 10명)</td>
       <td valign="center">
           <img width="200px" src="./chartImage/동접자 수-chart-time.png"/>
       </td>
@@ -33,7 +33,7 @@
       </td>
   </tr>
   <tr>
-      <td valign="center">멀티 스레드, 동시접속자 수 변화 (리스트 길이 1만)</td>
+      <td valign="center">멀티 스레드, 동시접속자 수 변화<br/>(리스트 길이 1만)</td>
       <td valign="center">
           <img width="200px" src="./chartImage/리스트 길이-chart-time.png"/>
       </td>
