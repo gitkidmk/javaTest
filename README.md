@@ -48,3 +48,10 @@
 ## Enum
 - valueOf 사용 예시
 - 상수값 ()안에 정의해 getCode로 불러오기 예시
+
+## Copy
+- 1차원 배열, 2차원 배열, List에 대해 primitive, Generic에서의 깊은 복사 알아보기
+- 1차원 primitive 배열에서는 clone 사용해 깊은 복사 가능함
+- 2차원에서는 for-loop를 통해 1차원 수준에서 clone으로 깊은 복사 가능함
+- Generic의 경우에는 for-loop를 통해 생성자로 새롭게 메모리 생성해 깊은 복사하거나, Object clone Override로 사용
+- List의 경우 생성자로 깊은 복사 가능
