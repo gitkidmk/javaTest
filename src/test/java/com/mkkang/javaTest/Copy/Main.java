@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Main {
     @Test
+    @DisplayName("얕은 복사 예시 : primitive에서는 값 복사여서 깊은 복사가 됨")
     public void aEqualB() {
         int a = 1;
         int b = a;
@@ -16,8 +17,17 @@ public class Main {
         System.out.println("a = " + a);
         System.out.println("b = " + b);
     }
+    @Test
+    @DisplayName("얕은 복사 예시 : primitive에서는 값 복사여서 깊은 복사가 됨")
+    public void aEqualB2() {
+        int[] a = new int[2];
+        int[] b = a;
+        b[1] = 2;
+        printOriginAndCopy(a, b);
+    }
 
     @Test
+    @DisplayName("T[]에서의 깊은 복사 feat. clone() override")
     public void typeTClone() throws CloneNotSupportedException {
         Human[] origin = new Human[] {new Human(), new Human(), new Human()};
         Human[] copy = new Human[3];
